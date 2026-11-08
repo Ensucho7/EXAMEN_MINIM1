@@ -5,7 +5,9 @@ import edu.upc.dsa.domain.models.Piloto;
 import edu.upc.dsa.domain.models.PlanVuelo;
 import org.apache.log4j.Logger;
 
-import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.*;
 
 public class DronesManagerImpl implements DronesManager {
@@ -147,7 +149,9 @@ public class DronesManagerImpl implements DronesManager {
     public PlanVuelo crearPlanVuelo(PlanVuelo plan) {
         logger.info("crearPlanVuelo inicio: " + plan);
         if (plan == null || plan.getDronId() == null || plan.getPilotoId() == null
-                || plan.getFecha() == null || plan.getDuracionHoras() <= 0) {
+                || plan.getFecha() == null || plan.getDuracionHoras() <= 0
+                || plan.getPosiciones() == null || plan.getPosiciones().isEmpty()
+                || !this.fechaValida(plan.getFecha())) {
             logger.error("crearPlanVuelo error: datos del plan incorrectos");
             return null;
         }
@@ -231,15 +235,26 @@ public class DronesManagerImpl implements DronesManager {
     //metodo privada que compara fechas para ver si se solapan dos planes de vuelo
     private boolean seSolapan(PlanVuelo p1, PlanVuelo p2) {
         try {
-            SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-            Date inicio1 = formato.parse(p1.getFecha());
-            Date inicio2 = formato.parse(p2.getFecha());
-            long fin1 = inicio1.getTime() + (long) (p1.getDuracionHoras() * 3600000);
-            long fin2 = inicio2.getTime() + (long) (p2.getDuracionHoras() * 3600000);
-            return inicio1.getTime() < fin2 && inicio2.getTime() < fin1;
-        } catch (Exception e) {
+            DateTimeFormatter formato = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+            LocalDateTime inicio1 = LocalDateTime.parse(p1.getFecha(), formato);
+            LocalDateTime inicio2 = LocalDateTime.parse(p2.getFecha(), formato);
+            LocalDateTime fin1 = inicio1.plusMinutes((long) (p1.getDuracionHoras() * 60));
+            LocalDateTime fin2 = inicio2.plusMinutes((long) (p2.getDuracionHoras() * 60));
+            return inicio1.isBefore(fin2) && inicio2.isBefore(fin1);
+        } catch (DateTimeParseException e) {
             logger.error("seSolapan error: fecha incorrecta");
             return true;
+        }
+    }
+
+    //metodo privado para ver si una fecha es valida
+    private boolean fechaValida(String fecha) {
+        if (fecha == null) return false;
+        try {
+            LocalDateTime.parse(fecha, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+            return true;
+        } catch (DateTimeParseException e) {
+            return false;
         }
     }
 }

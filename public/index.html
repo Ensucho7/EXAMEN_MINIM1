@@ -1,35 +1,119 @@
 <!DOCTYPE html>
-<html lang="es"> <head>
+<html lang="es">
+<head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <title>DSA Tracks - Mi primera web</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flota de Drones - DSA</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
 
-    <link rel="stylesheet" href="css/styles.css">
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%);
+            color: #e2e8f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+        }
 
-    <script src="js/tracks.js" defer></script>
+        main {
+            width: 100%;
+            max-width: 900px;
+            background: rgba(15, 23, 42, 0.85);
+            border: 1px solid rgba(148, 163, 184, 0.25);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 24px 60px rgba(0, 0, 0, 0.35);
+        }
+
+        h1 {
+            margin-top: 0;
+            font-size: 2.4rem;
+            color: #60a5fa;
+        }
+
+        p {
+            line-height: 1.7;
+            color: #cbd5e1;
+        }
+
+        .actions {
+            margin: 28px 0;
+        }
+
+        a.button {
+            display: inline-block;
+            padding: 14px 22px;
+            border-radius: 12px;
+            background: #2563eb;
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: 600;
+            transition: background 0.2s ease, transform 0.2s ease;
+        }
+
+        a.button:hover {
+            background: #1d4ed8;
+            transform: translateY(-2px);
+        }
+
+        h2 {
+            font-size: 1.2rem;
+            color: #93c5fd;
+            margin-bottom: 12px;
+        }
+
+        ul {
+            margin: 0;
+            padding-left: 22px;
+            line-height: 2;
+            color: #cbd5e1;
+        }
+
+        code {
+            background: rgba(148, 163, 184, 0.18);
+            padding: 2px 8px;
+            border-radius: 6px;
+            color: #f8fafc;
+        }
+
+        footer {
+            margin-top: 32px;
+            padding-top: 18px;
+            border-top: 1px solid rgba(148, 163, 184, 0.2);
+            color: #94a3b8;
+            font-size: 0.9rem;
+        }
+    </style>
 </head>
 <body>
-<header>
-    <h1>DSA MOLA!!!! - Tracks</h1>
-</header>
-
 <main>
-    <section class="intro">
-        <figure>
-            <p align="center"><img src="img/espinete.jpg" alt="Foto de Espinete" width="300"></p>
-        </figure>
-    </section>
+    <h1>Flota de Drones</h1>
+    <p>API REST para gestionar drones, pilotos, mantenimiento y planes de vuelo. Toda la documentacion interactiva esta disponible en Swagger.</p>
 
-    <hr>
+    <div class="actions">
+        <a class="button" href="swagger/index.html">Abrir Swagger UI</a>
+    </div>
 
-    <section class="content">
-        <h2>Lista de Canciones</h2>
-        <div id="tracks">
-            <p>carregant canciones...</p> </div>
-    </section>
+    <h2>Endpoints principales</h2>
+    <ul>
+        <li><code>POST /dsaApp/flota/drones</code> - anadir un dron</li>
+        <li><code>POST /dsaApp/flota/pilotos</code> - anadir un piloto</li>
+        <li><code>GET /dsaApp/flota/drones</code> - listar drones por horas de vuelo</li>
+        <li><code>GET /dsaApp/flota/pilotos</code> - listar pilotos por horas de vuelo</li>
+        <li><code>POST /dsaApp/flota/drones/{id}/mantenimiento</code> - guardar un dron en mantenimiento</li>
+        <li><code>POST /dsaApp/flota/mantenimiento/reparar</code> - reparar el dron mas cercano a la puerta</li>
+        <li><code>POST /dsaApp/flota/planes</code> - crear un plan de vuelo</li>
+        <li><code>GET /dsaApp/flota/pilotos/{id}/planes</code> - planes de un piloto</li>
+        <li><code>GET /dsaApp/flota/drones/{id}/planes</code> - planes de un dron</li>
+    </ul>
+
+    <footer>&copy; 2026 - Enzo Cobano - DSA</footer>
 </main>
-
-<footer>
-    <p>&copy; 2026 - Projecte DSA</p>
-</footer>
 </body>
 </html>

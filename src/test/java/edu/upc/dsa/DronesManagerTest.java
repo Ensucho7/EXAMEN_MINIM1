@@ -39,7 +39,7 @@ public class DronesManagerTest {
     @Test
     public void test1AddYListarOrdenados() {
         Assert.assertEquals(3, this.dm.size());
-        this.dm.addDron("D4", "Dron 4", "Skydio", "X2");
+        this.dm.addDron("D4", "Dron 4", "Golum", "X2");
         Assert.assertEquals(4, this.dm.size());
         this.dm.addPiloto("P4", "Pablo", "Ruiz");
         Assert.assertNotNull(this.dm.getDron("D4"));
